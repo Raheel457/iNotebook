@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 export default function Login(props) {
   const [credentials, setCredentials] = useState({ email: "", password: "" });
+  const [passVisibility, setPassVisibility] = useState(false);
   let Navigate = useNavigate();
   const HandleSubmit = async (e) => {
     e.preventDefault();
@@ -20,6 +21,9 @@ export default function Login(props) {
     // Checking if login credentials are matched
     if (json.status) {
       localStorage.setItem("token", json.jwtData);
+      setTimeout(() => {
+        localStorage.removeItem("token");
+      }, 600000);
       Navigate("/");
       props.showAlert("Logged In, Successfully", "success");
     } else {
@@ -29,9 +33,21 @@ export default function Login(props) {
   const onchange = (e) => {
     setCredentials({ ...credentials, [e.target.name]: e.target.value });
   };
+  // To toggle password view from hidden to text
+  const showPass = () => {
+    setPassVisibility((prev) => {
+      return !prev;
+    });
+    var x = document.getElementById("exampleInputPassword");
+    if (x.type === "password") {
+      x.type = "text";
+    } else {
+      x.type = "password";
+    }
+  };
   return (
     <div>
-    <h2 className="mt-2">Login Your account</h2>
+      <h2 className="mt-2">Login Your account</h2>
       <form onSubmit={HandleSubmit}>
         <div className="form-group my-3">
           <label htmlFor="exampleInputEmail1">Email address</label>
@@ -47,23 +63,40 @@ export default function Login(props) {
           />
         </div>
         <div className="form-group my-2">
-          <label htmlFor="exampleInputPassword1">Password</label>
+          <label htmlFor="exampleInputPassword">Password</label>
           <input
             type="password"
-            
             className="form-control my-2"
-            id="exampleInputPassword1"
+            id="exampleInputPassword"
+            autoComplete="off"
             placeholder="Password"
             name="password"
             value={credentials.password}
             onChange={onchange}
-          /><i className="far fa-eye" style={{position:"relative",bottom:40,left:"95%"}}  id="togglePassword"></i>
+          />
+          {credentials.password && (
+            <span
+              className="d-inline-block"
+              style={{ position: "relative", bottom: 40, left: "95%" }}
+              tabIndex="0"
+              data-bs-toggle="tooltip"
+              title={`${passVisibility ? "Hide Password" : "Show Password"}`}
+            >
+              <i
+                className={`far fa-${passVisibility ? "eye-slash" : "eye"}`}
+                onClick={showPass}
+                id="togglePassword"
+              ></i>
+            </span>
+          )}
         </div>
-        <Link to={"/signup"} className="my-2">Want to create a new account?</Link>
+        <Link to={"/signup"} className="my-2">
+          Want to create a new account?
+        </Link>
 
         <button
           disabled={credentials.password.length <= 5}
-          style={{display:"block"}}
+          style={{ display: "block" }}
           type="submit"
           className="btn btn-primary my-2"
         >

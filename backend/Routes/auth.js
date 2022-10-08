@@ -54,7 +54,7 @@ router.post(
       };
       // Signing token
       success = true;
-      const jwtData = jwt.sign(data, JWT_SECRET);
+      const jwtData = jwt.sign(data, JWT_SECRET,{expiresIn:"605s"});
       res.json({ status: success, jwtData });
     } catch (err) {
       console.log(err.message);
@@ -98,7 +98,7 @@ router.post(
       };
       // Signing token
       success = true;
-      const jwtData = jwt.sign(data, JWT_SECRET);
+      const jwtData = jwt.sign(data, JWT_SECRET,{expiresIn:"605s"});
       res.json({ status: success, jwtData });
     } catch (err) {
       console.log(err.message);

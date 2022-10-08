@@ -45,6 +45,7 @@ export default function AddNote(props) {
         <input
           type="text"
           className="form-control my-1"
+          autoComplete="off"
           id="Fortitle"
           aria-describedby="emailHelp"
           placeholder="Enter Title"
@@ -60,6 +61,7 @@ export default function AddNote(props) {
         <input
           type="text"
           className="form-control my-1"
+          autoComplete="off"
           id="forDescription"
           placeholder="Description ..."
           onChange={onchange}
@@ -72,6 +74,7 @@ export default function AddNote(props) {
         <input
           type="text"
           className="form-control my-1"
+          autoComplete="off"
           id="forTag"
           placeholder="Tag ..."
           onChange={onchange}
